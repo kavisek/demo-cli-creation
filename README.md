@@ -1,4 +1,4 @@
-# mycloud — How to Build a CLI People Enjoy Using
+# How to Build a CLI People Enjoy Using
 
 ## Overview
 
