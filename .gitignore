@@ -1,0 +1,22 @@
+# Local AI, editor, and dev container config
+.claude/
+.cursor/
+.vscode/
+.devcontainer/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+build/
+dist/
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# macOS
+.DS_Store

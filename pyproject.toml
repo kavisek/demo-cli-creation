@@ -1,0 +1,43 @@
+[project]
+name = "mycloud"
+dynamic = ["version"]
+description = "A small gcloud-style CLI for learning how to design and build command-line tools."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+# No runtime dependencies: the CLI uses only the standard library, so it
+# installs fast and has nothing to break.
+dependencies = []
+
+[project.scripts]
+mycloud = "mycloud.cli:run"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.6",
+]
+
+[tool.hatch.version]
+path = "mycloud/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mycloud"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+# README code blocks are hand-aligned for teaching.
+extend-exclude = ["README.md"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
