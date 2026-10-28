@@ -19,7 +19,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v7
       - name: Check the tag matches mycloud/__init__.py
         run: |
           version=$(uv run --no-project python -c "import mycloud; print(mycloud.__version__)")
