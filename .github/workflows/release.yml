@@ -1,0 +1,33 @@
+# Push a tag like v0.2.0 to build the wheel + sdist and attach them to a
+# GitHub Release. Nothing is published to PyPI: only people with read access
+# to this repo can download the release or install from git.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    # Only release from the upstream repo, not from forks.
+    if: github.repository == 'kavisek/demo-cli-creation'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Check the tag matches mycloud/__init__.py
+        run: |
+          version=$(uv run --no-project python -c "import mycloud; print(mycloud.__version__)")
+          test "v$version" = "$GITHUB_REF_NAME" || { echo "Tag $GITHUB_REF_NAME != v$version"; exit 1; }
+      - run: uv sync --locked
+      - run: uv run pytest -q
+      - run: uv build
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/* --generate-notes
